@@ -1,34 +1,21 @@
 <?php
-declare(strict_types=1);
 
-namespace Northwoods\Middleware;
+namespace BlackhawkElectronics\Middleware;
 
+use BlackhawkElectronics\Middleware\Fixture\TempContainer;
 use InvalidArgumentException;
-use Northwoods\Middleware\Fixture\Handler;
-use Northwoods\Middleware\Fixture\Middleware;
+use BlackhawkElectronics\Middleware\Fixture\Handler;
+use BlackhawkElectronics\Middleware\Fixture\Middleware;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 
 class LazyMiddlewareTest extends TestCase
 {
-    /** @var ContainerInterface */
-    private $container;
+    private TempContainer $container;
 
     protected function setUp(): void
     {
-        $this->container = new class implements ContainerInterface
-        {
-            public function has($id)
-            {
-                return class_exists($id);
-            }
-
-            public function get($id)
-            {
-                return new $id();
-            }
-        };
+        $this->container = new TempContainer();
     }
 
     public function testDefersToMiddlewareImplemention(): void

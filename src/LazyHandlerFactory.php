@@ -1,14 +1,12 @@
 <?php
-declare(strict_types=1);
 
-namespace Northwoods\Middleware;
+namespace BlackhawkElectronics\Middleware;
 
 use Psr\Container\ContainerInterface;
 
 class LazyHandlerFactory
 {
-    /** @var ContainerInterface */
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
@@ -16,7 +14,10 @@ class LazyHandlerFactory
     }
 
     /**
-     * Create a lazy handler instance.
+     * Add a lazy middleware instance
+     *
+     * @param string $handler
+     * @return LazyHandler
      */
     public function defer(string $handler): LazyHandler
     {

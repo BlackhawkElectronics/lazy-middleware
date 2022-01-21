@@ -1,7 +1,6 @@
 <?php
-declare(strict_types=1);
 
-namespace Northwoods\Middleware\Fixture;
+namespace BlackhawkElectronics\Middleware\Fixture;
 
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;

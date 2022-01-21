@@ -1,7 +1,6 @@
 <?php
-declare(strict_types=1);
 
-namespace Northwoods\Middleware;
+namespace BlackhawkElectronics\Middleware;
 
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
@@ -9,15 +8,11 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use function sprintf;
 
 class LazyMiddleware implements MiddlewareInterface
 {
-    /** @var ContainerInterface */
-    private $container;
-
-    /** @var string */
-    private $middleware;
+    private ContainerInterface $container;
+    private string $middleware;
 
     public function __construct(ContainerInterface $container, string $middleware)
     {
@@ -29,12 +24,23 @@ class LazyMiddleware implements MiddlewareInterface
         $this->middleware = $middleware;
     }
 
-    // MiddlewareInterface
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $this->resolve()->process($request, $handler);
     }
 
+    /**
+     * @return MiddlewareInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     private function resolve(): MiddlewareInterface
     {
         return $this->container->get($this->middleware);

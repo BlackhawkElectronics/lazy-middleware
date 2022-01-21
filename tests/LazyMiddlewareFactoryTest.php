@@ -1,34 +1,19 @@
 <?php
-declare(strict_types=1);
 
-namespace Northwoods\Middleware;
+namespace BlackhawkElectronics\Middleware;
 
-use Northwoods\Middleware\Fixture\Middleware;
+use BlackhawkElectronics\Middleware\Fixture\Middleware;
+use BlackhawkElectronics\Middleware\Fixture\TempContainer;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
 class LazyMiddlewareFactoryTest extends TestCase
 {
-    /** @var LazyMiddlewareFactory */
-    private $factory;
+    private LazyMiddlewareFactory $factory;
 
     protected function setUp(): void
     {
-        $container = new class implements ContainerInterface
-        {
-            public function has($id)
-            {
-                return class_exists($id);
-            }
-
-            public function get($id)
-            {
-                return new $id();
-            }
-        };
-
-        $this->factory = new LazyMiddlewareFactory($container);
+        $this->factory = new LazyMiddlewareFactory(new TempContainer());
     }
 
     public function testCreatesProxyMiddleware(): void
