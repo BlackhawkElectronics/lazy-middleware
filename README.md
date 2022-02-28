@@ -1,6 +1,6 @@
 # Lazy Middleware
 
-Forked from Northwoods Lazy Middleware
+Forked from Northwoods Lazy Middleware. Thanks to Northwoods for making this package!
 
 Lazy loading for [PSR-15 middleware and request handlers][psr15] that supports
 "just in time" instantiation using a [PSR-11][psr11] [container][containers].
